@@ -1,0 +1,36 @@
+{
+  "name": "@netrunner/registry-archive",
+  "version": "1.0.0",
+  "description": "Creates an archive of registry logs",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "node test/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phoenix344/registry-archive.git"
+  },
+  "keywords": [
+    "domain",
+    "archive",
+    "registry",
+    "dat"
+  ],
+  "author": "phoenix344",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phoenix344/registry-archive/issues"
+  },
+  "homepage": "https://github.com/phoenix344/registry-archive#readme",
+  "dependencies": {
+    "@netrunner/registry-log": "^1.0.3"
+  },
+  "devDependencies": {
+    "@netrunner/types": "^1.0.3",
+    "@types/node": "^10.9.4"
+  }
+}
