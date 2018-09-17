@@ -1,5 +1,5 @@
 {
-  "name": "@netrunner/registry-archive",
+  "name": "@netrunner/registry-writer",
   "version": "1.0.0",
   "description": "Creates an archive of registry logs",
   "main": "lib/index.js",
@@ -12,20 +12,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/phoenix344/registry-archive.git"
+    "url": "git+https://github.com/phoenix344/registry-writer.git"
   },
   "keywords": [
-    "domain",
-    "archive",
+    "writer",
     "registry",
+    "domain",
     "dat"
   ],
   "author": "phoenix344",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/phoenix344/registry-archive/issues"
+    "url": "https://github.com/phoenix344/registry-writer/issues"
   },
-  "homepage": "https://github.com/phoenix344/registry-archive#readme",
+  "homepage": "https://github.com/phoenix344/registry-writer#readme",
   "dependencies": {
     "@netrunner/registry-log": "^1.0.6",
     "sodium-signatures": "^2.1.1"
