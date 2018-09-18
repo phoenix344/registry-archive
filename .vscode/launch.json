@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Registry Writer Tests",
+            "program": "${workspaceFolder}/test/test.js",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

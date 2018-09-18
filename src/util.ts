@@ -23,6 +23,7 @@ export function writable(newEntry: EntrySchema, oldEntry?: EntrySchema | void): 
         if (oldEntry.updated < newEntry.updated) {
             return verify({ ...newEntry, key: oldEntry.key }) && !newEntry.removed;
         }
+        return false;
     }
     return verify(newEntry) && !newEntry.removed;
 }
@@ -32,6 +33,7 @@ export function removable(newEntry: EntrySchema, oldEntry?: EntrySchema | void):
         if (oldEntry.updated < newEntry.updated) {
             return verify({ ...newEntry, key: oldEntry.key }) && newEntry.removed;
         }
+        return false;
     }
     return verify(newEntry) && newEntry.removed;
 }
