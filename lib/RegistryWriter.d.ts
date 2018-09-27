@@ -1,7 +1,7 @@
 import { Hypercore } from 'hypercore';
 import { EntrySchema } from "@netrunner/registry-log";
 import { RegistryDatabase } from './RegistryDatabase';
-export declare class RegistryWriter {
+export declare class EntryWriter {
     private feed;
     private db;
     constructor(feed: Hypercore<EntrySchema>, db: RegistryDatabase);

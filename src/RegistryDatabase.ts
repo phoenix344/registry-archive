@@ -19,7 +19,7 @@ export abstract class RegistryDatabase {
             const deletables = [];
             for (const key of entries) {
                 const entry = await this.get(key);
-                if (entry && now > entry.updated + this.options.expireTime) {
+                if (entry && 'undefined' !== typeof entry.updated && now > entry.updated + this.options.expireTime) {
                     deletables.push(this.del(entry.name));
                 }
             }

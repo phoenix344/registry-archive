@@ -1,6 +1,6 @@
 import { EntrySchema } from "@netrunner/registry-log";
 import { Hypercore, HypercoreStreamOptions } from "hypercore";
-import { RegistryWriter } from './RegistryWriter';
+import { EntryWriter } from './EntryWriter';
 import { RegistryDatabase } from './RegistryDatabase';
 import { writable, removable } from "./util";
 import { Readable } from "stream";
@@ -9,8 +9,8 @@ export interface RegistryFeedOptions extends HypercoreStreamOptions {
     throws?: boolean;
 }
 
-export class RegistryFeed {
-    public writer!: RegistryWriter;
+export class RegistryWriter {
+    public writer!: EntryWriter;
     private feeds!: Map<Hypercore<EntrySchema>, Readable>;
     private isReady: boolean = false;
 
@@ -39,19 +39,22 @@ export class RegistryFeed {
     public async create(entry: EntrySchema): Promise<void> {
         await this.ready();
         this.throwsIfFeedNotWritable();
-        await this.writer.create(entry);
+        const registered = await this.db.get(entry.name);
+        await this.writer.create(entry, registered);
     }
 
     public async update(entry: EntrySchema): Promise<void> {
         await this.ready();
         this.throwsIfFeedNotWritable();
-        await this.writer.update(entry);
+        const registered = await this.db.get(entry.name);
+        await this.writer.update(entry.content, registered);
     }
 
     public async remove(entry: EntrySchema): Promise<void> {
         await this.ready();
         this.throwsIfFeedNotWritable();
-        await this.writer.remove(entry);
+        const registered = await this.db.get(entry.name);
+        await this.writer.remove(entry, registered);
     }
 
     public addFeed(feed: Hypercore<EntrySchema>): void {
@@ -107,7 +110,7 @@ export class RegistryFeed {
             feed.ready(err => {
                 if (err && this.options.throws) return reject(err);
                 if (feed.writable && !this.writer) {
-                    this.writer = new RegistryWriter(feed, this.db);
+                    this.writer = new EntryWriter(feed);
                 }
                 resolve();
             });
@@ -116,6 +119,6 @@ export class RegistryFeed {
 
 }
 
-export function createRegistryFeed(feeds: Hypercore<EntrySchema>[], db: RegistryDatabase, options: RegistryFeedOptions = {}) {
-    return new RegistryFeed(feeds, db, options);
+export function createRegistryWriter(feeds: Hypercore<EntrySchema>[], db: RegistryDatabase, options: RegistryFeedOptions = {}) {
+    return new RegistryWriter(feeds, db, options);
 }

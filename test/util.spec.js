@@ -2,27 +2,27 @@ const util = require("../lib/util");
 const { keyPair } = require("sodium-signatures");
 const assert = require("assert");
 
-function createEntry(keys, name, target, removed = false) {
+function createEntry(keys, name, content, removed = false) {
     const entry = {
         key: keys.publicKey,
         created: 0,
         updated: 0,
         removed,
         name,
-        target
+        content
     };
     entry.sig = util.sign(keys.secretKey, entry);
     return entry;
 }
 
-function updateEntry(keys, name, target, updateOffset, removed = false) {
+function updateEntry(keys, name, content, updateOffset, removed = false) {
     const entry = {
         key: keys.publicKey,
         created: 0,
         updated: updateOffset,
         removed,
         name,
-        target
+        content
     };
     entry.sig = util.sign(keys.secretKey, entry);
     return entry;
@@ -30,10 +30,10 @@ function updateEntry(keys, name, target, updateOffset, removed = false) {
 
 module.exports = [
     (async function testHash() {
-        const expected = Buffer.from("61ce50dd22bbe1bfb614b1a35b2cc3b19847177e09938be1746e1b4e733df60e", "hex");
+        const expected = Buffer.from("17e3bd05a73a8a17b4dc50aed7d544836559783c74eebacdec24d6b2f9064676", "hex");
         const actual = util.hash({
             name: "name",
-            target: "target",
+            content: "content",
             removed: false
         });
         assert.deepEqual(actual, expected, "hash must be equal!");
@@ -44,7 +44,7 @@ module.exports = [
             key: keys.publicKey,
             sig: Buffer.alloc(0),
             name: "name",
-            target: "target",
+            content: "content",
             removed: false
         };
 
@@ -60,7 +60,7 @@ module.exports = [
             key: keys.publicKey,
             sig: Buffer.alloc(0),
             name: "name",
-            target: "target",
+            content: "content",
             removed: false
         };
 
@@ -73,7 +73,7 @@ module.exports = [
             key: keys.publicKey,
             sig: Buffer.alloc(0),
             name: "name",
-            target: "target",
+            content: "content",
             removed: false
         };
 
@@ -83,12 +83,12 @@ module.exports = [
 
     (async function testWritableIsValid() {
         const keys = keyPair();
-        const entry = createEntry(keys, "name", "target", false);
+        const entry = createEntry(keys, "name", "content", false);
         assert.equal(util.writable(entry), true, "entry must be valid!");
     })(),
     (async function testWritableIsInvalid() {
         const keys = keyPair();
-        const entry = createEntry(keys, "name", "target", true);
+        const entry = createEntry(keys, "name", "content", true);
         assert.equal(util.writable(entry), false, "entry must be invalid!");
     })(),
     (async function testWritableNewIsOutdated() {
@@ -106,12 +106,12 @@ module.exports = [
 
     (async function testDeletableIsValid() {
         const keys = keyPair();
-        const entry = createEntry(keys, "name", "target", true);
+        const entry = createEntry(keys, "name", "content", true);
         assert.equal(util.removable(entry), true, "entry must be valid!");
     })(),
     (async function testDeletableIsInvalid() {
         const keys = keyPair();
-        const entry = createEntry(keys, "name", "target", false);
+        const entry = createEntry(keys, "name", "content", false);
         assert.equal(util.removable(entry), false, "entry must be invalid!");
     })(),
     (async function testDeletableNewIsOutdated() {

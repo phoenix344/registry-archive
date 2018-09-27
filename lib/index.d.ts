@@ -1,14 +1,14 @@
 import { EntrySchema } from "@netrunner/registry-log";
 import { Hypercore, HypercoreStreamOptions } from "hypercore";
-import { RegistryWriter } from './RegistryWriter';
+import { EntryWriter } from './EntryWriter';
 import { RegistryDatabase } from './RegistryDatabase';
 export interface RegistryFeedOptions extends HypercoreStreamOptions {
     throws?: boolean;
 }
-export declare class RegistryFeed {
+export declare class RegistryWriter {
     private db;
     private options;
-    writer: RegistryWriter;
+    writer: EntryWriter;
     private feeds;
     private isReady;
     constructor(feeds: Hypercore<EntrySchema>[], db: RegistryDatabase, options?: RegistryFeedOptions);
@@ -23,5 +23,5 @@ export declare class RegistryFeed {
     private throwsIfFeedNotWritable;
     private feedReady;
 }
-export declare function createRegistryFeed(feeds: Hypercore<EntrySchema>[], db: RegistryDatabase, options?: RegistryFeedOptions): RegistryFeed;
+export declare function createRegistryWriter(feeds: Hypercore<EntrySchema>[], db: RegistryDatabase, options?: RegistryFeedOptions): RegistryWriter;
 //# sourceMappingURL=index.d.ts.map
