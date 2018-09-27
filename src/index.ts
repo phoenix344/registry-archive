@@ -47,7 +47,7 @@ export class RegistryWriter {
         await this.ready();
         this.throwsIfFeedNotWritable();
         const registered = await this.db.get(entry.name);
-        await this.writer.update(entry.content, registered);
+        await this.writer.update(entry, registered);
     }
 
     public async remove(entry: EntrySchema): Promise<void> {
