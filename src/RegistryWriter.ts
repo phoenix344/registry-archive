@@ -1,8 +1,6 @@
-import { EntrySchema } from "@netrunner/registry-log";
+import { EntrySchema, EntryWriter, writable, removable } from "@netrunner/registry-log";
 import { Hypercore, HypercoreStreamOptions } from "hypercore";
-import { EntryWriter } from './EntryWriter';
 import { RegistryDatabase } from './RegistryDatabase';
-import { writable, removable } from "./util";
 import { Readable } from "stream";
 
 export interface RegistryWriterOptions extends HypercoreStreamOptions {
