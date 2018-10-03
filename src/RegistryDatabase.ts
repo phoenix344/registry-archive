@@ -2,6 +2,7 @@ import { EntrySchema } from "@netrunner/registry-log";
 
 export interface RegistryDatabaseOptions {
     expireTime?: number;
+    
 }
 
 export abstract class RegistryDatabase {

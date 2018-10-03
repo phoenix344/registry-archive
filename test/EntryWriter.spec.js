@@ -2,29 +2,8 @@ const { registryLog } = require('@netrunner/registry-log');
 const ram = require('random-access-memory');
 const { keyPair } = require('sodium-signatures');
 const assert = require('assert');
-const { RegistryDatabase } = require('../lib/RegistryDatabase');
 const { EntryWriter } = require('../lib/EntryWriter');
 const { createEntry, updateEntry, removeEntry } = require('../lib/util');
-
-class DB extends RegistryDatabase {
-    constructor(options) {
-        super(options);
-        this.entries = {};
-    }
-
-    async getKeys() {
-        return Object.keys(this.entries);
-    }
-    async get(key) {
-        return this.entries[key];
-    }
-    async put(key, value) {
-        this.entries[key] = value;
-    }
-    async del(key) {
-        delete this.entries[key];
-    }
-}
 
 function whenReadyCreateWriter(feed, options) {
     return new Promise((resolve, reject) => {

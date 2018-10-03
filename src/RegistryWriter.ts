@@ -5,10 +5,11 @@ import { RegistryDatabase } from './RegistryDatabase';
 import { writable, removable } from "./util";
 import { Readable } from "stream";
 
-export interface RegistryFeedOptions extends HypercoreStreamOptions {
+export interface RegistryWriterOptions extends HypercoreStreamOptions {
     throws?: boolean;
 }
 
+// TODO: rethink about the concept!
 export class RegistryWriter {
     public writer!: EntryWriter;
     private feeds!: Map<Hypercore<EntrySchema>, Readable>;
@@ -17,7 +18,7 @@ export class RegistryWriter {
     constructor(
         feeds: Hypercore<EntrySchema>[],
         private db: RegistryDatabase,
-        private options: RegistryFeedOptions = {}
+        private options: RegistryWriterOptions = {}
     ) {
         if (!options) {
             options = { live: true };
@@ -36,27 +37,28 @@ export class RegistryWriter {
         }
     }
 
-    public async create(entry: EntrySchema): Promise<void> {
+    public async create(entry: EntrySchema): Promise<boolean> {
         await this.ready();
         this.throwsIfFeedNotWritable();
         const registered = await this.db.get(entry.name);
-        await this.writer.create(entry, registered);
+        return await this.writer.create(entry, registered);
     }
 
-    public async update(entry: EntrySchema): Promise<void> {
+    public async update(entry: EntrySchema): Promise<boolean> {
         await this.ready();
         this.throwsIfFeedNotWritable();
         const registered = await this.db.get(entry.name);
-        await this.writer.update(entry, registered);
+        return await this.writer.update(entry, registered);
     }
 
-    public async remove(entry: EntrySchema): Promise<void> {
+    public async remove(entry: EntrySchema): Promise<boolean> {
         await this.ready();
         this.throwsIfFeedNotWritable();
         const registered = await this.db.get(entry.name);
-        await this.writer.remove(entry, registered);
+        return await this.writer.remove(entry, registered);
     }
 
+    // TODO: make another function
     public addFeed(feed: Hypercore<EntrySchema>): void {
         if (!this.feeds.has(feed)) {
             this.feeds.set(feed, feed.createReadStream(this.options).on("data", async (entry: EntrySchema) => {
@@ -119,6 +121,6 @@ export class RegistryWriter {
 
 }
 
-export function createRegistryWriter(feeds: Hypercore<EntrySchema>[], db: RegistryDatabase, options: RegistryFeedOptions = {}) {
+export function createRegistryWriter(feeds: Hypercore<EntrySchema>[], db: RegistryDatabase, options: RegistryWriterOptions = {}) {
     return new RegistryWriter(feeds, db, options);
 }

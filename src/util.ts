@@ -75,3 +75,7 @@ export function removable(newEntry: EntrySchema, oldEntry?: EntrySchema | void):
     }
     return verify(newEntry) && !!newEntry.removed === true;
 }
+
+export function convertEnum<T>(obj: any, index: number): T {
+    return obj[obj[index]] as T;
+}

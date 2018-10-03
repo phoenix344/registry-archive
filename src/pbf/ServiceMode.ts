@@ -1,0 +1,1 @@
+export enum ServiceMode { Create, Update, Delete, Renew }

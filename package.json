@@ -8,7 +8,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "ts-node test/test.ts"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
@@ -27,12 +27,13 @@
   },
   "homepage": "https://github.com/phoenix344/registry-writer#readme",
   "dependencies": {
-    "@netrunner/registry-log": "^1.0.7",
+    "@netrunner/registry-log": "^1.0.9",
     "sodium-signatures": "^2.1.1"
   },
   "devDependencies": {
     "@netrunner/types": "^1.0.5",
-    "@types/node": "^10.9.4",
+    "@types/node": "^10.11.3",
+    "@types/pbf": "^3.0.0",
     "random-access-memory": "^3.0.0"
   }
 }
